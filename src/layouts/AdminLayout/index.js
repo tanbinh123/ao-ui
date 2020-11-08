@@ -5,6 +5,8 @@ import './index.less'
 
 // import { createRoutes as Routes } from '@/router';
 import { Layout } from 'antd';
+// import {Authority} from '@/router/permissions';
+import { Authority } from '@/router/permission';
 // import { SmileOutlined } from '@ant-design/icons';
 
 const { Content, Footer } = Layout;
@@ -28,6 +30,9 @@ export default function AdminLayout({ children }) {
                 {/* <HeaderCustom toggle={toggle} collapsed={collapsed} user={auth || {}} /> */}
                 <Content className="app_layout_content">
                     <h2>admin layout</h2>
+                    <Authority authority={["ROLE_TEST"]}>
+                        <h3>this is Authority.</h3>
+                    </Authority>
                     {/* <Routes auth="true" /> */}
                     {children}
                 </Content>
