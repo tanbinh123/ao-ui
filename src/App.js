@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+
+import './App.less';
+
+// import Routes from './router';
+import { BrowserRouter as Router, Route, Switch/** , Redirect */ } from 'react-router-dom';
+// import AdminLayout from '@/layouts/AdminLayout';
+import NotFound from '@/pages/NotFound';
+// import LoginLayout from '@/layouts/LoginLayout'
+
+import { createRoutes } from '@/router';
+
+
+const arr = createRoutes();
+console.log('arr: ', arr);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>{process.env.NODE_ENV}-{process.env.REACT_APP_VERSION}</h2>
+
+      <Router>
+        <Switch>
+            {/* <Routes /> */}
+            {/* <Route exact path="/" render={() => <AdminLayout />} /> */}
+            {/* <Route path="/admin" component={AdminLayout} /> */}
+            {/* <Route path="/404" component={NotFound} /> */}
+            {/* <Route path="/login" component={LoginLayout} /> */}
+            {
+                arr.map((item) => item)
+              }
+            <Route component={NotFound} />
+        </Switch>
+      </Router>
     </div>
   );
 }
