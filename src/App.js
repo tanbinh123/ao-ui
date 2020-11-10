@@ -9,14 +9,13 @@ import NotFound from '@/pages/NotFound';
 
 import { createRoutes } from '@/router';
 
-
+//  {/* <h2>{process.env.NODE_ENV}-{process.env.REACT_APP_VERSION}</h2> */}
 const arr = createRoutes();
 console.log('arr: ', arr);
 
 function App() {
   return (
-    <div className="App">
-      <h2>{process.env.NODE_ENV}-{process.env.REACT_APP_VERSION}</h2>
+     
 
       <Router>
         <Switch>
@@ -31,7 +30,6 @@ function App() {
             <Route component={NotFound} />
         </Switch>
       </Router>
-    </div>
   );
 }
 
