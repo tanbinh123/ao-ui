@@ -1,21 +1,30 @@
-import * as actions from '../action/Actions';
+// import * as actions from '@/action/Actions';
+import * as actionType from '@/action/ActionType';
+import { combineReducers } from 'redux'
+// import * as reducers from './reducers'  // 会导出reducers文件中所有export的内容
+
+import {postsLogin} from '@/reducer/LoginReducer';
 
 const initialState = {
   todos: "todo list"
 };
 
-export default function todoApp(state, action) {
+export function todoApp(state, action) {
     if (typeof state === 'undefined') {
       return initialState
     }
 
     switch(action.type) {
-        case actions.ADD_TODO:
-        return {
-            ...state,
-            todos: action.text
-        }
+        case actionType.ADD_TODO:
+          return Object.assign({}, state, {
+            visibilityFilter: action.filter
+          })
         default:
           return state
     }
   }
+
+export const reducer = combineReducers({
+    todoApp,
+    postsLogin
+  });

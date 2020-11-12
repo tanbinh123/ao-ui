@@ -18,7 +18,7 @@ import {
 import { Authority } from '@/router/permission';
 // import { SmileOutlined } from '@ant-design/icons';
 
-import routes from '@/router/config'
+// import routes from '@/router/config'
 import {allMenus} from '@/router/index';
 
 
@@ -74,20 +74,6 @@ export default function AdminLayout({ children }) {
                     !item.hidden && ((item.routes && item.routes.length) > 0 ? renderSubMenu(item) :  renderMenuItem(item))
                 )
               }
-            
-          
-            
-            {/* <Menu.Item key="1" icon={<UserOutlined />}>
-                <Link to={"/user/email"}>
-                                        Email
-                                    </Link>
-            </Menu.Item> */}
-            {/* <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-              nav 2
-            </Menu.Item>
-            <Menu.Item key="3" icon={<UploadOutlined />}>
-              nav 3
-            </Menu.Item> */}
           </Menu>
         </Sider>
         <Layout className="site-layout">
@@ -105,40 +91,10 @@ export default function AdminLayout({ children }) {
               minHeight: 280,
             }}
           >
-              <i className="fa fa-address-book-o" aria-hidden="true"></i>
             {children}
           </Content>
           <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
         </Layout>
       </Layout>
-
-        // <div>
-        //     <Switch>
-        //         {routes.map((route, i) => (
-        //         <RouteWithSubRoutes key={i} {...route} />
-        //         ))}
-        //     </Switch>
-        // </div>
-        
-        // <Layout>
-        //     {/* {!responsive.isMobile && checkLogin(auth.permissions) && (
-        //         <SiderCustom collapsed={collapsed} />
-        //     )} */}
-        //     {/* <ThemePicker /> */}
-        //     <Layout>
-        //         {/* <HeaderCustom toggle={toggle} collapsed={collapsed} user={auth || {}} /> */}
-        //         <Content className="app_layout_content">
-        //             <h2>admin layout</h2>
-        //             <Authority authority={["ROLE_TEST"]}>
-        //                 <h3>this is Authority.</h3>
-        //             </Authority>
-        //             {/* <Routes auth="true" /> */}
-        //             {children}
-        //         </Content>
-        //         <Footer className="app_layout_foot">
-        //             {/* <Copyright /> */}
-        //         </Footer>
-        //     </Layout>
-        // </Layout>
     )
 }

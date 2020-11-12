@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
-import reducers from '@/reducer/Reducer';
+import {reducer} from '@/reducer/Reducer';
 
 // middleware可以自己定义，例如下面的logger
 const logger = store => next => action => {
@@ -11,5 +11,5 @@ const logger = store => next => action => {
      return result;
 }
 
-export default applyMiddleware(logger)(createStore)(reducers);
+export default applyMiddleware(logger)(createStore)(reducer);
 

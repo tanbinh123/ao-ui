@@ -47,6 +47,20 @@ module.exports = function ({
             //       pathRewrite: {'^/api' : ''}
             //     }
             //   }
+            '/api': {
+                target: process.env.REACT_APP_BASE_API,
+                changeOrigin: true,
+                pathRewrite: {
+                  '^/api': 'api'
+                }
+              },
+              '/auth': {
+                target: process.env.REACT_APP_BASE_API,
+                changeOrigin: true,
+                pathRewrite: {
+                  '^/auth': 'auth'
+                }
+              }
 
         },
         plugins: [
