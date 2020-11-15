@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
+import store from '@/store/Store';
+// import * as AuthAction from '@/action/AuthAction';
 
 // import * as firebase from 'firebase/app'
 
@@ -17,7 +19,9 @@ export function ProvideAuth({ children }) {
 }
 
 export const useAuth = () => {
-    return useContext(authContext);
+    const userInfo = store.getState().postsLogin;
+    // console.log("useAuth userInfo: ", store.getState().userInfo);
+    return userInfo;
 }
 
 function useProvideAuth() {

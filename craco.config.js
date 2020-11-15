@@ -5,9 +5,13 @@ const pathResolve = (pathUrl) => path.join(__dirname, pathUrl);
 const CracoLessPlugin = require('craco-less');
 const CracoAntDesignPlugin = require("craco-antd");
 
+console.log('process.env: ', process.env);
+
 module.exports = function ({
     env
 }) {
+  const apiBaseUrl = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8000' : '/';
+
     return {
         webpack: {
             alias: {
@@ -36,33 +40,24 @@ module.exports = function ({
         },
         devServer: {
             /* Any devServer configuration options: https://webpack.js.org/configuration/dev-server/#devserver. */
-
             contentBase: path.join(__dirname, 'dist'),
             compress: true,
+            open: true,
             port: 5000,
-
-            // proxy: {
-            //     '/api': {
-            //       target: 'http://localhost:3000',
-            //       pathRewrite: {'^/api' : ''}
-            //     }
-            //   }
-            '/api': {
-                target: process.env.REACT_APP_BASE_API,
-                changeOrigin: true,
-                pathRewrite: {
-                  '^/api': 'api'
-                }
-              },
-              '/auth': {
-                target: process.env.REACT_APP_BASE_API,
-                changeOrigin: true,
-                pathRewrite: {
-                  '^/auth': 'auth'
-                }
-              }
-
+            proxy: [{
+              context: ['/auth', '/api'],
+              target: apiBaseUrl,
+              pathRewrite: {
+                        '^/auth': 'auth',
+                        '^/api': 'api'
+                      }
+            }]
         },
+        // devServer: (devServerConfig, { env, paths, proxy, allowedHost }) => {
+        //   console.log('devServer env: ', env);
+        //   console.log('devServer proxy: ', proxy);
+        //   return { ...devServerConfig, port: 5000 };
+        //   },
         plugins: [
             {
                 plugin: {

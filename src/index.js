@@ -11,6 +11,7 @@ import store from '@/store/Store';
 
 // let store = createStore(reducers);
 
+console.log('store state: ', store.getState());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

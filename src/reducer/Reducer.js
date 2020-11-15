@@ -3,7 +3,7 @@ import * as actionType from '@/action/ActionType';
 import { combineReducers } from 'redux'
 // import * as reducers from './reducers'  // 会导出reducers文件中所有export的内容
 
-import {postsLogin} from '@/reducer/LoginReducer';
+import {postsLogin, userInfo} from '@/reducer/LoginReducer';
 
 const initialState = {
   todos: "todo list"
@@ -26,5 +26,6 @@ export function todoApp(state, action) {
 
 export const reducer = combineReducers({
     todoApp,
-    postsLogin
+    postsLogin,
+    userInfo
   });
