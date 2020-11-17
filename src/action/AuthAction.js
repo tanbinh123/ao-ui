@@ -1,13 +1,10 @@
 import * as actionType from './ActionType';
-import {login, getInfo} from '@/service/login';
-import {setToken} from '@/utils/auth';
-
-// export function LoginAction(user) {
-//   return {
-//     type: actionType.SET_USER_INFO,
-//     user: user
-//   }
-// }
+import {login, getInfo, logout} from '@/service/login';
+import {buildMenus} from '@/service/system/menu';
+import {setToken, removeToken} from '@/utils/auth';
+import menu from '../service/system/menu';
+import { menus } from '../reducer/LoginReducer';
+import { remove } from 'js-cookie';
 
 export function fetchBeforeAction() {
   return {
@@ -15,10 +12,12 @@ export function fetchBeforeAction() {
   }
 }
 
-export function fetchSuccessAction(user) {
+export function fetchSuccessAction(user, menus) {
   return {
     type: actionType.FETCH_POSTS_SUCCESS,
-    user: user
+    user: user,
+    menus: menus
+
   }
 }
 
@@ -33,12 +32,10 @@ export function toLogin(user) {
     console.log("toLogin user: ", user);
     return (dispatch) => {
       dispatch(fetchBeforeAction());
-      return login(user.username, user.password, user.code, user.uuid).then(res => {
-        // dispatch(LoginAction(res));
-        console.log("login action res: ", res);
+      return login(user.username, user.password, user.code, user.uuid).then(async res => {
         setToken(res.token, user.rememberMe);
-        dispatch(fetchSuccessAction(res.user));
-        // dispatch(getUserInfo())
+        const menus = await buildMenus();
+        dispatch(fetchSuccessAction(res.user, menus));
         return res;
       },
       error => {
@@ -57,14 +54,49 @@ function setUserInfo(user, roles) {
   }
 }
 
-
+// 获取用户信息
 export function getUserInfo() {
   return (dispatch) => {
-    return getInfo().then(res=> {
-      dispatch(setUserInfo(res.user, res.roles));
+    return getInfo().then(async res=> {
+      const menus = await buildMenus();
+      dispatch(fetchSuccessAction(res, menus))
       return res;
     }, error => {
       return error;
     })
+  }
+}
+
+function setMenus(menus) {
+  return {
+    type: actionType.SET_MENUS,
+    menus: menus,
+  }
+}
+
+export function loadMenus() {
+  return (dispatch) => {
+    return buildMenus().then(res => {
+      console.log('loading menus : ', res);
+      dispatch(setMenus(res))
+    })
+  }
+}
+
+export function clearUserInfo() {
+  return {
+    type: actionType.FETCH_POSTS_SUCCESS,
+    user: {user: {}, roles: [], menus: []},
+    menus: []
+  }
+}
+
+export function Logout() {
+  return dispatch => {
+    return logout().then(res => {
+      dispatch(clearUserInfo());
+      removeToken();
+      return res;
+    });
   }
 }

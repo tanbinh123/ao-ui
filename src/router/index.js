@@ -7,35 +7,24 @@ import routes from './config';
 import { PrivateRoute } from './permission';
 
 import icons from './icons';
+import store from '@/store/Store';
 
 // 将后端返回的菜单数组生成为路由数组
 export function menusToRoutes(menus) {
-    console.log('test route......')
+    console.log('test route......', menus)
     if(!menus) {
         menus = [
         ];
-    } 
-    menus = [
-        {
-            path: "/test",
-            label: "test route",
-            icon: "UserOutlined",
-            hidden: false,
-            auth: false,
-            authority: [],
-            component: "LoginLayout"
-          },
-    ];
+    }
     return menus.map(menu => {
-        console.log('icons[menu.icon]: ', icons[menu.icon])
         const route = {
             path: menu.path,
-            label: menu.label,
+            label: menu.name,
             auth: menu.auth ? menu.auth : false,
             authority: menu.authority ? menu.authority : [],
-            icon: icons[menu.icon],
+            // icon: icons[menu.icon],    // 测试时注释
             hidden: menu.hidden,
-            component: loadable(() => import("@/" + menu.component)),
+            // component: loadable(() => import("@/" + menu.component)),   // 测试时注册
             routes: menu.children && menu.children.length > 0 ? menusToRoutes(menu.children) : [] 
         }
         return route;
@@ -48,17 +37,11 @@ export function mergeRoutes(menus) {
     return routes.concat(menuRoutes);
 }
 
-export function allMenus() {
-    return mergeRoutes([]);
-}
-
-
 export function createRoutes() {
     // 后端请求返回的路由信息
-    const menus = [];
+    const menus = store.getState().postsLogin.menus;
 
     const routeList = mergeRoutes(menus);
-    console.log("routeList: ", routeList);
 
     // routes
     return renderRouters(routeList);
@@ -66,7 +49,6 @@ export function createRoutes() {
 
 export function renderRouters(routes) {
     return routes.map((route, key) => {
-
         if (!route.routes || route.routes.length <= 0) {
             return route.auth ? (<PrivateRoute authority={route.authority} path={route.path} key={key} >
                 <route.component />
@@ -78,7 +60,8 @@ export function renderRouters(routes) {
                 }
                 }
             >
-            </Route>);
+            </Route>)
+            ;
         } else {
             return route.auth ? (
 
@@ -99,7 +82,8 @@ export function renderRouters(routes) {
                         }
                     >
                     </Route>
-                );
+                )
+                ;
         }
     })
 }

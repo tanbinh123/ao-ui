@@ -33,7 +33,7 @@ const routes = [
         component: loadable(() => import("@/layouts/LoginLayout"))
       },
       {
-        path: "/user",
+        path: "/admin",
         label: "用户管理",
         icon: loadable(() => import("@ant-design/icons/UserOutlined")),
         auth: true,
@@ -41,7 +41,7 @@ const routes = [
         component: loadable(() => import("@/layouts/AdminLayout")),
         routes: [
           {
-            path: "/user/center",
+            path: "/admin/center",
             label: "用户中心",
             icon: loadable(() => import("@ant-design/icons/UserOutlined")),
             auth: true,
@@ -49,7 +49,7 @@ const routes = [
             component: loadable(() => import("@/pages/UserCenter")),
           },
           {
-            path: "/user/email",
+            path: "/admin/email",
             label: "邮箱",
             icon: loadable(() => import("@ant-design/icons/UserOutlined")),
             auth: false,

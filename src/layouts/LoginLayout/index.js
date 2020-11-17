@@ -66,7 +66,7 @@ function LoginLayoutComp(props) {
     props.todoLogin(user).then(res => {
       console.log('onFinish res: ', res);
       if(res) {
-        history.push("/user");
+        history.push("/");
       }
     }, error => {
       console.log("onFinish error: ", error);

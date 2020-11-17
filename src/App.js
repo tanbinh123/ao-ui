@@ -2,7 +2,7 @@
 import './App.less';
 
 // import Routes from './router';
-import { BrowserRouter as Router, Route, Switch/** , Redirect */ } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 // import AdminLayout from '@/layouts/AdminLayout';
 import NotFound from '@/pages/NotFound';
 // import LoginLayout from '@/layouts/LoginLayout'
@@ -19,7 +19,7 @@ function App() {
 
       <Router>
         <Switch>
-            {/* <Routes /> */}
+            {/* <Routes /> /admin */}
             {/* <Route exact path="/" render={() => <AdminLayout />} /> */}
             {/* <Route path="/admin" component={AdminLayout} /> */}
             {/* <Route path="/404" component={NotFound} /> */}
@@ -27,6 +27,13 @@ function App() {
             {
                 arr.map((item) => item)
               }
+              <Route exact path="/" render={(props) => 
+              (<Redirect
+                to={{
+                  pathname: "/admin",
+                }}
+            />)
+              } /> 
             <Route component={NotFound} />
         </Switch>
       </Router>

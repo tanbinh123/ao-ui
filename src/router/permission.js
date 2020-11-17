@@ -15,13 +15,17 @@ export const checkLogin = (permits) =>
 export function PrivateRoute({ children, authority, ...rest }) {
     console.log('PrivateRoute authority: ', authority);
     let auth = useAuth();  // 正式环境从登录用户中获取
+
     console.log("PrivateRoute auth : ", auth);
     // let auth = {roles : ["ROLE_USER", "ROLE_ADMIN"]};  // 测试
     let isAuth = true;
 
     // let auth = {roles : ["ROLE_USER_TEST"]};
+    if(authority && authority.length <= 0) {
+      isAuth = true;
+    }
     const authorities = authority && authority.length > 0 ? authority : ["ROLE_USER"];  // 访问路由所需的权限
-    isAuth = auth.roles && auth.roles.length > 0 ? authorities.filter(ele => auth.roles.indexOf(ele) !== -1).length > 0 : false;
+    isAuth = auth != null && auth.roles && auth.roles.length > 0 ? authorities.filter(ele => auth.roles.indexOf(ele) !== -1).length > 0 : false;
 
     return (
       <Route
@@ -52,7 +56,7 @@ export function PrivateRoute({ children, authority, ...rest }) {
     // let auth = {roles : ["ROLE_USER", "ROLE_ADMIN"]};  // 测试
     let isAuth = true;
     const authorities = authority && authority.length > 0 ? authority : ["ROLE_USER"];  // 访问路由所需的权限
-    isAuth = auth.roles && auth.roles.length > 0 ? authorities.filter(ele => auth.roles.indexOf(ele) !== -1).length > 0 : false;
+    isAuth = auth != null && auth.roles && auth.roles.length > 0 ? authorities.filter(ele => auth.roles.indexOf(ele) !== -1).length > 0 : false;
 
     return isAuth && children;
   }

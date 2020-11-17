@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext, createContext } from 'react'
 import store from '@/store/Store';
-// import * as AuthAction from '@/action/AuthAction';
+import * as AuthAction from '@/action/AuthAction';
+import { useSelector } from 'react-redux';
 
 // import * as firebase from 'firebase/app'
 
@@ -19,9 +20,31 @@ export function ProvideAuth({ children }) {
 }
 
 export const useAuth = () => {
-    const userInfo = store.getState().postsLogin;
-    // console.log("useAuth userInfo: ", store.getState().userInfo);
-    return userInfo;
+    // const userInfo = store.getState().postsLogin;
+    // if(!userInfo || userInfo.roles.length <= 0) {
+    //     const user = await store.dispatch(AuthAction.getUserInfo());
+    //     return user;
+    // }
+    
+    const {userInfo} = useSelector(state => ({
+        userInfo: state.postsLogin
+    }), []);
+    let userData = userInfo;
+    if(userInfo.roles.length <= 0) {
+        const user = sessionStorage.getItem('userInfo');
+        userData = JSON.parse(user);
+    }
+
+    console.log('useAuth: userinfo : ', userInfo);
+
+    useEffect(() => {
+        if(userInfo.roles.length <= 0) {
+            store.dispatch(AuthAction.getUserInfo());
+        }
+        return () => {};
+    }, [])
+
+    return userData;
 }
 
 function useProvideAuth() {
